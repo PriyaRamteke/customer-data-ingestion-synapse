@@ -1,0 +1,72 @@
+{
+	"name": "Goldlayer_Notebook_UseCase",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "sparkCluster1",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"runAsWorkspaceSystemIdentity": false,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "9a4fdf5f-3ec3-4072-8338-570053c22627"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"synapse_widget": {
+				"version": "0.1"
+			},
+			"enableDebugMode": false,
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/685afc1d-f152-4801-850b-42e70db5ef6a/resourceGroups/myresource/providers/Microsoft.Synapse/workspaces/newsynapse/bigDataPools/sparkCluster1",
+				"name": "sparkCluster1",
+				"type": "Spark",
+				"endpoint": "https://newsynapse.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/sparkCluster1",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net",
+					"authHeader": null
+				},
+				"sparkVersion": "3.5",
+				"nodeCount": 10,
+				"cores": 4,
+				"memory": 28,
+				"extraHeader": null
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"metadata": {
+					"microsoft": {
+						"language": "python"
+					},
+					"collapsed": false
+				},
+				"source": [
+					"%%pyspark\r\n",
+					"df1 = spark.read.load('abfss://landing@storeadlsaccount.dfs.core.windows.net/Project/silverlayer/CustomerAddress/', format='parquet')\r\n",
+					"df1=df1.withColumnRenamed(\"modifieddate\", \"modifieddate_address\")\r\n",
+					"df1=df1.withColumnRenamed(\"rowguid\", \"rowguid_address\")\r\n",
+					"df2=spark.read.load('abfss://landing@storeadlsaccount.dfs.core.windows.net/Project/silverlayer/Customer/', format='parquet')\r\n",
+					"df3=df1.join(df2, on='CustomerID')\r\n",
+					"df3.write.mode('overwrite').save(path='abfss://landing@storeadlsaccount.dfs.core.windows.net/Project/goldlayer/UseCase/')"
+				]
+			}
+		]
+	}
+}

@@ -1,0 +1,17 @@
+{
+	"name": "SQL script 7",
+	"properties": {
+		"content": {
+			"query": "IF NOT EXISTS (SELECT * FROM sys.external_file_formats WHERE name = 'SynapseParquetFormat') \n\tCREATE EXTERNAL FILE FORMAT [SynapseParquetFormat] \n\tWITH ( FORMAT_TYPE = PARQUET)\nGO\n\nIF NOT EXISTS (SELECT * FROM sys.external_data_sources WHERE name = 'landing_storeadlsaccount_dfs_core_windows_net') \n\tCREATE EXTERNAL DATA SOURCE [landing_storeadlsaccount_dfs_core_windows_net] \n\tWITH (\n\t\tLOCATION = 'abfss://landing@storeadlsaccount.dfs.core.windows.net' \n\t)\nGO\n\nCREATE EXTERNAL TABLE gold.customerdetail (\n\t[CustomerID] int,\n\t[AddressID] int,\n\t[AddressType] nvarchar(4000),\n\t[rowguid_address] nvarchar(4000),\n\t[modifieddate_address] datetime2(7),\n\t[NameStyle] bit,\n\t[Title] nvarchar(4000),\n\t[FirstName] nvarchar(4000),\n\t[MiddleName] nvarchar(4000),\n\t[LastName] nvarchar(4000),\n\t[Suffix] nvarchar(4000),\n\t[CompanyName] nvarchar(4000),\n\t[SalesPerson] nvarchar(4000),\n\t[EmailAddress] nvarchar(4000),\n\t[Phone] nvarchar(4000),\n\t[PasswordHash] nvarchar(4000),\n\t[PasswordSalt] nvarchar(4000),\n\t[rowguid] nvarchar(4000),\n\t[ModifiedDate] datetime2(7)\n\t)\n\tWITH (\n\tLOCATION = 'Project/goldlayer/UseCase/**',\n\tDATA_SOURCE = [landing_storeadlsaccount_dfs_core_windows_net],\n\tFILE_FORMAT = [SynapseParquetFormat]\n\t)\nGO\n\n\nSELECT TOP 100 * FROM gold.customerdetail\nGO",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "newSQLdb",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
