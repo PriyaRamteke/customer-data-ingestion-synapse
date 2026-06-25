@@ -1,5 +1,5 @@
 {
-	"name": "newsynapse-WorkspaceDefaultSqlServer",
+	"name": "<your-synapse-name>",
 	"type": "Microsoft.Synapse/workspaces/linkedservices",
 	"properties": {
 		"typeProperties": {
