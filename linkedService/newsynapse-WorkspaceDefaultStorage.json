@@ -1,9 +1,9 @@
 {
-	"name": "newsynapse-WorkspaceDefaultStorage",
+	"name": "<your-synapse-name>",
 	"type": "Microsoft.Synapse/workspaces/linkedservices",
 	"properties": {
 		"typeProperties": {
-			"url": "https://storeadlsaccount.dfs.core.windows.net"
+			"url": "<url>"
 		},
 		"type": "AzureBlobFS",
 		"connectVia": {
